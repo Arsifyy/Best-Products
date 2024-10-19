@@ -1,0 +1,123 @@
+:root {
+    --bg-color: #f4f4f4;
+    --text-color: #333;
+    --header-bg: #ff9900;
+    --button-bg: #007bff; /* Light theme button color */
+    --button-hover-bg: #0056b3; /* Light theme button hover color */
+    --card-bg: #fff;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+    --bg-color: #333;
+    --text-color: #f4f4f4;
+    --header-bg: #555;
+    --button-bg: #00b300; /* Jade green for dark theme */
+    --button-hover-bg: #009900; /* Darker jade green on hover */
+    --card-bg: #444;
+    --card-shadow: rgba(255, 255, 255, 0.1);
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 80px; /* Move the button further down */
+    right: 10px; /* Keep the button on the right */
+    background: var(--button-bg);
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2em; /* Keep the size for visibility */
+    transition: transform 0.2s, background 0.3s;
+    cursor: pointer;
+}
+
+header {
+    background: var(--header-bg);
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    position: relative; /* Needed for button positioning */
+}
+
+[data-theme="dark"] header {
+    background: #0047ab; /* Cobalt blue for dark mode */
+}
+
+.cta-button {
+    transition: background 0.3s, transform 0.2s;
+}
+
+.cta-button:hover {
+    background-color: #0056b3; /* Warna saat hover */
+    transform: scale(1.05); /* Membesar sedikit saat hover */
+}
+
+nav a.active {
+    background: #0056b3; /* Highlight active page */
+}
+
+/* Default navigation styles */
+nav {
+    background: #ff9900; /* Orange */
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 15px 20px;
+    transition: background 0.3s;
+}
+
+nav a:hover {
+    background: #0056b3; /* Dark blue on hover */
+}
+
+/* Navigation styles for dark mode */
+[data-theme="dark"] nav {
+    background: #0047ab; /* Cobalt blue for dark mode */
+}
+
+/* Responsive menu */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+    }
+
+    nav a {
+        padding: 10px;
+        text-align: center;
+    }
+}
+
+.product-features {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f9f9f9; /* Light background for emphasis */
+    border: 1px solid #e0e0e0; /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.product-features h4 {
+    margin-bottom: 10px;
+    font-size: 1.5em; /* Slightly larger heading */
+    color: #333; /* Darker color for better readability */
+}
+
+.product-features ul {
+    list-style-type: none; /* Remove default bullets */
+    padding: 0; /* Remove padding */
+}
+
+.product-features li {
+    margin: 8px 0; /* Space between items */
+    font-size: 1.1em; /* Slightly larger font size */
+}
+
+.product-features strong {
+    color: #007bff; /* Highlight the feature labels for emphasis */
+}

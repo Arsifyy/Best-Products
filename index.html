@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Product on Amazon</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --bg-color: #f4f4f4;
+            --text-color: #333;
+            --header-bg: #ff9900; /* Orange header for light mode */
+            --button-bg: #007bff; /* Light theme button color */
+            --button-hover-bg: #0056b3; /* Light theme button hover color */
+            --card-bg: #fff;
+            --card-shadow: rgba(0, 0, 0, 0.1);
+            --feedback-bg: #f9f9f9; /* Feedback background for light mode */
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #333;
+                --text-color: #f4f4f4;
+                --header-bg: #0047ab; /* Cobalt blue for dark mode */
+                --button-bg: #00A86B; /* Dark theme button color */
+                --button-hover-bg: #008B5B; /* Darker button hover color */
+                --card-bg: #444;
+                --card-shadow: rgba(255, 255, 255, 0.1);
+                --feedback-bg: #555; /* Dark background for feedback in dark mode */
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background: var(--header-bg);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: relative; /* Needed for button positioning */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        header p {
+            font-size: 1.2em;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 80px; /* Move the button further down */
+            right: 10px; /* Keep the button on the right */
+            background: var(--button-bg);
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.2em; /* Keep the size for visibility */
+            transition: transform 0.2s, background 0.3s;
+            cursor: pointer;
+        }
+
+        .theme-toggle:hover {
+            background: var(--button-hover-bg);
+            transform: rotate(360deg); /* Eye-catching animation */
+        }
+
+        .cta-button {
+            background: var(--button-bg);
+            color: #fff;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: background 0.3s, transform 0.2s;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: var(--button-hover-bg);
+            transform: scale(1.05);
+        }
+
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .about, .featured-feedback, .faqs, .social-proof, .newsletter {
+            background: var(--card-bg);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px var(--card-shadow);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        .about h2, .featured-feedback h2, .faqs h2, .social-proof h2, .newsletter h2 {
+            margin-bottom: 15px;
+        }
+
+        .about p, .faqs p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .product {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px var(--card-shadow);
+            margin: 10px;
+            width: 300px;
+            text-align: center;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .feedback-item {
+            background: var(--feedback-bg); /* Use variable for background */
+            border-left: 5px solid var(--button-bg);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            transition: background 0.3s; /* Smooth transition for background */
+        }
+
+        .faq-item {
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        .social-proof img {
+            width: 80px;
+            margin: 5px;
+        }
+
+        .newsletter input[type="email"] {
+            padding: 10px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .newsletter button {
+            padding: 10px 15px;
+            margin-left: 10px;
+            background: var(--button-bg);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .newsletter button:hover {
+            background: var(--button-hover-bg);
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--header-bg);
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .products {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .product {
+                width: 80%;
+            }
+        }
+
+        /* Navigation styles */
+        nav {
+            background: #ff9900; /* Orange */
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 15px 20px;
+            transition: background 0.3s;
+        }
+
+        nav a:hover {
+            background: #0056b3; /* Dark blue on hover */
+        }
+
+        /* Navigation styles for dark mode */
+        @media (prefers-color-scheme: dark) {
+            nav {
+                background: #0047ab; /* Cobalt blue for dark mode */
+            }
+
+            nav a:hover {
+                background: #ff9900; /* Orange on hover */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Website</h1>
+        <h1>Discover the Best Product Arsifyy</h1>
+        <p>Your solution for a better life!</p>
+    </header>
+
+    <nav>
+        <a href="#about">About Us</a>
+        <a href="#products">Products</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#faq">FAQs</a>
+    </nav>
+   
+    <div class="content">
+        <div class="about">
+            <section id="about">
+                <h2>About Us</h2>
+                <p>Welcome to our platform dedicated to bringing you the best products available here. Our mission is to help you find high-quality items that enhance your lifestyle, whether you’re looking for the latest gadgets, home essentials, or unique gifts.</p>
+                <p>We carefully curate our selections based on customer reviews, product performance, and value for money. Our aim is to provide you with detailed information and genuine reviews to help you make informed purchasing decisions.</p>
+                <p>Join our community of satisfied customers and discover products that make a difference in your everyday life!</p>
+            </section>
+        </div>
+
+        <section id="products">
+            <h2>Products</h2>
+            <div class="products">
+                <div class="product">
+                    <img src="images/product1.jpg" alt="Egg Topper Cutter Tool">
+                    <h3>Egg Topper Cutter Tool</h3>
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li><strong>Easy to Use:</strong> Just press to crack eggs.</li>
+                        <li><strong>Portable:</strong> Lightweight design for travel.</li>
+                        <li><strong>Durable:</strong> Safe plastic and stainless steel.</li>
+                    </ul>
+                    <p><strong>Rating:</strong> ★★★★☆ (4.5/5)</p>
+                    <a href="https://amzn.to/4eLwlEU" class="cta-button">Buy Now</a>
+                </div>
+
+                <div class="product">
+                    <img src="images/product2.jpg" alt="Large Chicken Shredder Tool">
+                    <h3>Large Chicken Shredder Tool (Orange)</h3>
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li><strong>Quick Shredding:</strong> Ergonomic handle for easy use.</li>
+                        <li><strong>Safe Materials:</strong> BPA-free and dishwasher safe.</li>
+                        <li><strong>Easy to Use:</strong> Cook, cut, and twist to shred.</li>
+                    </ul>
+                    <p><strong>Rating:</strong> ★★★★☆ (4.7/5)</p>
+                    <a href="https://amzn.to/4haJZDe" class="cta-button">Buy Now</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="reviews">
+            <h2>Reviews</h2>
+            <div class="testimonials">
+                <div class="testimonial">"This product changed my life! Highly recommended!" - Jane Doe</div>
+                <div class="testimonial">"Amazing quality and fast shipping!" - John Smith</div>
+                <div class="testimonial">"I can't believe I waited so long to buy this!" - Sarah Lee</div>
+            </div>
+        </section>
+
+        <section id="feedback">
+            <h2>Feedback</h2>
+            <div class="featured-feedback">
+                <div class="feedback-item">
+                    <p>"I absolutely love this product! It has transformed my daily routine and I can’t imagine going without it. Highly recommend to everyone!"</p>
+                    <p><strong>- Emma Johnson</strong></p>
+                </div>
+                <div class="feedback-item">
+                    <p>"Fantastic quality and quick delivery! This is my go-to for gifts now. Thank you for such a great service!"</p>
+                    <p><strong>- Michael Smith</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQs)</h2>
+            <div class="faqs">
+                <div class="faq-item">
+                    <strong>Q: What is the return policy?</strong>
+                    <p>A: We offer a 30-day return policy on most items. Please check the specific product page for details.</p>
+                </div>
+                <div class="faq-item">
+                    <strong>Q: How can I track my order?</strong>
+                    <p>A: After placing your order, you will receive a tracking number via email to monitor your shipment.</p>
+                </div>
+                <div class="faq-item">
+                    <strong>Q: Do you offer discounts for bulk purchases?</strong>
+                    <p>A: Yes, we offer discounts for bulk purchases. Please contact us for more information.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="newsletter">
+            <h2>Stay Updated!</h2>
+            <p>Sign up for our newsletter to receive the latest updates and exclusive offers.</p>
+            <form action="#" method="post">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+
+        <div class="feedback-form">
+            <h2>Kritik dan Saran</h2>
+            <form action="#" method="post">
+                <label for="name">Nama:</label><br>
+                <input type="text" id="name" name="name" required><br><br>
+                
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" required><br><br>
+                
+                <label for="message">Pesan:</label><br>
+                <textarea id="message" name="message" rows="4" required></textarea><br><br>
+                
+                <button type="submit" class="cta-button">Kirim</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>Copyright &copy; 2024. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        let currentTheme = 'light';
+
+        // Check for saved theme in local storage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            currentTheme = savedTheme;
+            document.body.setAttribute('data-theme', currentTheme);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('theme', currentTheme); // Save theme in local storage
+        });
+    </script>
+    <script>
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
