@@ -756,5 +756,36 @@
             });
         });
     </script>
+
+    <script>
+        const themeToggleButton = document.getElementById('themeToggle');
+
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.body.style.backgroundColor = '#181818';
+                document.body.style.color = '#f4f4f4';
+            } else {
+                document.body.style.backgroundColor = '#f4f4f4';
+                document.body.style.color = '#333';
+            }
+        }
+
+        // Load theme from localStorage or use system preference
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.body.setAttribute('data-theme', savedTheme);
+        applyTheme(savedTheme);
+
+        // Event listener for theme toggle
+        themeToggleButton.addEventListener('click', toggleTheme);
+    </script>
+        
 </body>
 </html>
