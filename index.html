@@ -3,6 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4; /* Warna latar belakang terang */
+            color: #333; /* Warna teks terang */
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc; /* Border terang */
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white; /* Latar belakang saran */
+            border: 1px solid #ccc; /* Border terang */
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none; /* Mulai tersembunyi */
+        }
+
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f0f0f0; /* Warna latar belakang saat hover terang */
+        }
+
+         /* Tema gelap */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #333; /* Warna latar belakang gelap */
+                color: #f4f4f4; /* Warna teks terang */
+            }
+
+            .search-input {
+                background-color: #444; /* Latar belakang input gelap */
+                color: #f4f4f4; /* Warna teks input gelap */
+                border: 1px solid #555; /* Border lebih gelap */
+            }
+
+            .suggestions {
+                background: #444; /* Latar belakang saran gelap */
+                border: 1px solid #555; /* Border lebih gelap */
+            }
+
+            .suggestion-item {
+                color: #f4f4f4; /* Warna teks saran terang */
+            }
+
+            .product {
+                background: #555; /* Latar belakang produk gelap */
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            }
+
+            .cta-button {
+                background-color: #00bfae; /* Jade green */
+            }
+
+            .cta-button:hover {
+                background-color: #009b8c; /* Jade green gelap */
+            }
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Best Product on Amazon</title>
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -254,36 +342,123 @@
             </section>
         </div>
 
-        <section id="products">
-            <h2>Products</h2>
-            <div class="products">
-                <div class="product">
-                    <img src="images/product1.jpg" alt="Egg Topper Cutter Tool">
-                    <h3>Egg Topper Cutter Tool</h3>
-                    <h4>Key Features:</h4>
-                    <ul>
-                        <li><strong>Easy to Use:</strong> Just press to crack eggs.</li>
-                        <li><strong>Portable:</strong> Lightweight design for travel.</li>
-                        <li><strong>Durable:</strong> Safe plastic and stainless steel.</li>
-                    </ul>
-                    <p><strong>Rating:</strong> ★★★★☆ (4.5/5)</p>
-                    <a href="https://amzn.to/4eLwlEU" class="cta-button">Buy Now</a>
-                </div>
+        <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Cari produk..." onkeyup="searchProducts()" />
+        <div id="suggestions" class="suggestions"></div>
+    </div>
 
-                <div class="product">
-                    <img src="images/product2.jpg" alt="Large Chicken Shredder Tool">
-                    <h3>Large Chicken Shredder Tool (Orange)</h3>
-                    <h4>Key Features:</h4>
-                    <ul>
-                        <li><strong>Quick Shredding:</strong> Ergonomic handle for easy use.</li>
-                        <li><strong>Safe Materials:</strong> BPA-free and dishwasher safe.</li>
-                        <li><strong>Easy to Use:</strong> Cook, cut, and twist to shred.</li>
-                    </ul>
-                    <p><strong>Rating:</strong> ★★★★☆ (4.7/5)</p>
-                    <a href="https://amzn.to/4haJZDe" class="cta-button">Buy Now</a>
-                </div>
+    <section id="products">
+        <h2>Products</h2>
+        <div class="products" id="productList">
+            <div class="product">
+                <img src="images/product1.jpg" alt="Egg Topper Cutter Tool">
+                <h3>Egg Topper Cutter Tool</h3>
+                <h4>Key Features:</h4>
+                <ul>
+                    <li><strong>Easy to Use:</strong> Just press to crack eggs.</li>
+                    <li><strong>Portable:</strong> Lightweight design for travel.</li>
+                    <li><strong>Durable:</strong> Safe plastic and stainless steel.</li>
+                </ul>
+                <p><strong>Rating:</strong> ★★★★☆ (4.5/5)</p>
+                <a href="https://amzn.to/4eLwlEU" class="cta-button">Buy Now</a>
             </div>
-        </section>
+
+            <div class="product">
+                <img src="images/product2.jpg" alt="Large Chicken Shredder Tool">
+                <h3>Large Chicken Shredder Tool (Orange)</h3>
+                <h4>Key Features:</h4>
+                <ul>
+                    <li><strong>Quick Shredding:</strong> Ergonomic handle for easy use.</li>
+                    <li><strong>Safe Materials:</strong> BPA-free and dishwasher safe.</li>
+                    <li><strong>Easy to Use:</strong> Cook, cut, and twist to shred.</li>
+                </ul>
+                <p><strong>Rating:</strong> ★★★★☆ (4.7/5)</p>
+                <a href="https://amzn.to/4haJZDe" class="cta-button">Buy Now</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const products = [
+            {
+                name: "Egg Topper Cutter Tool",
+                img: "images/product1.jpg",
+                details: [
+                    "Easy to Use: Just press to crack eggs.",
+                    "Portable: Lightweight design for travel.",
+                    "Durable: Safe plastic and stainless steel."
+                ],
+                rating: "★★★★☆ (4.5/5)",
+                link: "https://amzn.to/4eLwlEU"
+            },
+            {
+                name: "Large Chicken Shredder Tool (Orange)",
+                img: "images/product2.jpg",
+                details: [
+                    "Quick Shredding: Ergonomic handle for easy use.",
+                    "Safe Materials: BPA-free and dishwasher safe.",
+                    "Easy to Use: Cook, cut, and twist to shred."
+                ],
+                rating: "★★★★☆ (4.7/5)",
+                link: "https://amzn.to/4haJZDe"
+            }
+        ];
+
+        function searchProducts() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const productList = document.getElementById('productList');
+            const suggestionsDiv = document.getElementById('suggestions');
+            productList.innerHTML = ''; // Clear current products
+            suggestionsDiv.innerHTML = ''; // Clear current suggestions
+
+            const filteredProducts = products.filter(product => product.name.toLowerCase().includes(input));
+
+            if (filteredProducts.length === 0) {
+                productList.innerHTML = '<p>No products found.</p>'; // Show message if no products found
+            } else {
+                filteredProducts.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'product';
+                    productDiv.innerHTML = `
+                        <img src="${product.img}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <h4>Key Features:</h4>
+                        <ul>
+                            ${product.details.map(detail => `<li><strong>${detail.split(":")[0]}:</strong> ${detail.split(":")[1]}</li>`).join('')}
+                        </ul>
+                        <p><strong>Rating:</strong> ${product.rating}</p>
+                        <a href="${product.link}" class="cta-button">Buy Now</a>
+                    `;
+                    productList.appendChild(productDiv);
+                });
+            }
+
+            // Tampilkan saran produk berdasarkan input
+            const suggestions = products.filter(product => product.name.toLowerCase().startsWith(input));
+            if (input && suggestions.length > 0) {
+                suggestionsDiv.style.display = 'block'; // Tampilkan saran
+                suggestionsDiv.innerHTML = suggestions.map(product => `
+                    <div class="suggestion-item" onclick="selectSuggestion('${product.name}')">${product.name}</div>
+                `).join('');
+            } else {
+                suggestionsDiv.style.display = 'none'; // Sembunyikan saran jika tidak ada
+            }
+        }
+
+        function selectSuggestion(productName) {
+            document.getElementById('searchInput').value = productName; // Set input dengan produk yang dipilih
+            searchProducts(); // Panggil fungsi pencarian untuk memperbarui hasil
+            document.getElementById('suggestions').style.display = 'none'; // Sembunyikan saran
+        }
+
+        // Tutup saran saat mengklik di luar
+        document.addEventListener('click', function(event) {
+            const suggestionsDiv = document.getElementById('suggestions');
+            if (!document.querySelector('.search-container').contains(event.target)) {
+                suggestionsDiv.style.display = 'none';
+            }
+        });
+    </script>
 
         <section id="reviews">
             <h2>Reviews</h2>
