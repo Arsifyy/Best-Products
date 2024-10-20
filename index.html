@@ -3,6 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Tema terang (default) */
+        body {
+            background-color: #f4f4f4; /* Latar belakang terang */
+            color: #333; /* Teks gelap */
+        }
+
+        .feedback-form {
+            background: white; /* Latar belakang formulir */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 600px; /* Maksimal lebar formulir */
+            margin: auto; /* Pusatkan formulir */
+        }
+
+        .feedback-form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        .feedback-form input,
+        .feedback-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+
+        .feedback-form input:focus,
+        .feedback-form textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between; /* Spasi antara tombol */
+            flex-wrap: wrap; /* Agar tombol bisa pindah ke baris berikutnya */
+        }
+
+        .cta-button {
+            padding: 10px 15px;
+            background-color: #007bff; /* Biru */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            flex: 1; /* Membuat tombol fleksibel */
+            margin-right: 10px; /* Spasi antar tombol */
+        }
+
+        .cta-button:hover {
+            background-color: #0056b3; /* Biru gelap */
+        }
+
+        .reset-button {
+            padding: 10px 15px;
+            background-color: #f44336; /* Merah */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            flex: 1; /* Membuat tombol fleksibel */
+        }
+
+        .reset-button:hover {
+            background-color: #c62828; /* Merah gelap */
+        }
+
+        .message {
+            margin-top: 20px;
+            color: green; /* Warna pesan sukses */
+        }
+
+        /* Tema gelap */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #181818; /* Latar belakang gelap */
+                color: #ffffff; /* Teks terang */
+            }
+
+            .feedback-form {
+                background: #222; /* Latar belakang formulir gelap */
+                box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+            }
+
+            .feedback-form input,
+            .feedback-form textarea {
+                background: #333; /* Latar belakang input gelap */
+                border: 1px solid #555; /* Border gelap */
+                color: #ffffff; /* Teks terang */
+            }
+
+            .feedback-form input:focus,
+            .feedback-form textarea:focus {
+                border-color: #007bff;
+            }
+
+            .cta-button {
+                background-color: #007bff; /* Biru */
+                color: white;
+            }
+
+            .reset-button {
+                background-color: #f44336; /* Merah */
+                color: white;
+            }
+        }
+
+    </style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Search</title>
     <style>
         body {
@@ -295,13 +421,6 @@
             transform: scale(1.05);
         }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: var(--header-bg);
-            color: #fff;
-        }
-
         @media (max-width: 768px) {
             .products {
                 flex-direction: column;
@@ -541,25 +660,67 @@
         </div>
 
         <div class="feedback-form">
-            <h2>Kritik dan Saran</h2>
-            <form action="#" method="post">
-                <label for="name">Nama:</label><br>
-                <input type="text" id="name" name="name" required><br><br>
-                
-                <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email" required><br><br>
-                
-                <label for="message">Pesan:</label><br>
-                <textarea id="message" name="message" rows="4" required></textarea><br><br>
-                
+        <h2>Kritik dan Saran</h2>
+        <form id="form" action="#" method="post">
+            <label for="name">Nama:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="message">Pesan:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+            
+            <div class="button-container">
                 <button type="submit" class="cta-button">Kirim</button>
-            </form>
-        </div>
+                <button type="button" class="reset-button" onclick="resetForm()">Reset</button>
+            </div>
+        </form>
+        <div id="successMessage" class="message" style="display: none;">Terima kasih atas kritik dan saran Anda!</div>
     </div>
 
     <footer>
         <p>Copyright &copy; 2024. All Rights Reserved.</p>
     </footer>
+
+    <script>
+        // Memuat data dari localStorage jika ada
+        window.onload = function() {
+            const name = localStorage.getItem('name');
+            const email = localStorage.getItem('email');
+            const message = localStorage.getItem('message');
+
+            if (name) document.getElementById('name').value = name;
+            if (email) document.getElementById('email').value = email;
+            if (message) document.getElementById('message').value = message;
+        };
+
+        // Menyimpan data ke localStorage saat formulir disubmit
+        document.getElementById('form').onsubmit = function() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            localStorage.setItem('name', name);
+            localStorage.setItem('email', email);
+            localStorage.setItem('message', message);
+
+            // Menampilkan pesan sukses
+            document.getElementById('successMessage').style.display = 'block';
+
+            // Mencegah pengiriman formulir
+            return false;
+        };
+
+        // Fungsi untuk mereset formulir
+        function resetForm() {
+            document.getElementById('form').reset();
+            localStorage.removeItem('name');
+            localStorage.removeItem('email');
+            localStorage.removeItem('message');
+            document.getElementById('successMessage').style.display = 'none';
+        }
+    </script>
 
     <script>
         const themeToggle = document.getElementById('theme-toggle');
