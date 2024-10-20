@@ -25,6 +25,7 @@
             border-radius: 5px;
             border: 1px solid #ccc; /* Border terang */
             font-size: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
             transition: border-color 0.3s;
         }
 
@@ -36,7 +37,7 @@
             background: white; /* Latar belakang saran */
             border: 1px solid #ccc; /* Border terang */
             border-radius: 5px;
-            max-height: 200px;
+            max-height: 150px;
             overflow-y: auto;
             z-index: 100;
             display: none; /* Mulai tersembunyi */
@@ -46,13 +47,39 @@
             padding: 10px;
             cursor: pointer;
             transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .suggestion-item img {
+            width: 30px; /* Ukuran gambar */
+            height: 30px; /* Ukuran gambar */
+            border-radius: 5px;
+            margin-right: 10px; /* Jarak antara gambar dan teks */
         }
 
         .suggestion-item:hover {
             background-color: #f0f0f0; /* Warna latar belakang saat hover terang */
         }
 
-         /* Tema gelap */
+         /* Responsivitas */
+        @media (max-width: 768px) {
+            .product {
+                width: 100%; /* Satu produk per baris di mobile */
+            }
+
+            .search-input {
+                font-size: 14px; /* Ukuran font lebih kecil di mobile */
+                padding: 8px; /* Padding lebih kecil di mobile */
+            }
+
+            .suggestion-item img {
+                width: 25px; /* Ukuran gambar lebih kecil di mobile */
+                height: 25px; /* Ukuran gambar lebih kecil di mobile */
+            }
+        }
+
+        /* Tema gelap */
         @media (prefers-color-scheme: dark) {
             body {
                 background-color: #333; /* Warna latar belakang gelap */
@@ -438,7 +465,10 @@
             if (input && suggestions.length > 0) {
                 suggestionsDiv.style.display = 'block'; // Tampilkan saran
                 suggestionsDiv.innerHTML = suggestions.map(product => `
-                    <div class="suggestion-item" onclick="selectSuggestion('${product.name}')">${product.name}</div>
+                    <div class="suggestion-item" onclick="selectSuggestion('${product.name}')">
+                        <img src="${product.img}" alt="${product.name}"> 
+                        ${product.name}
+                    </div>
                 `).join('');
             } else {
                 suggestionsDiv.style.display = 'none'; // Sembunyikan saran jika tidak ada
