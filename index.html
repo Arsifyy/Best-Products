@@ -1,9 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search and Filter</title>
+    <style>
+        :root {
+            --background-color: #f9f9f9; /* Light theme background */
+            --text-color: #000; /* Light theme text color */
+            --button-bg-color: #0056b3; /* Green button color for light theme */
+            --button-hover-bg-color: #0056b3; /* Darker green for hover */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .suggestions {
+            border: 1px solid #ccc;
+            background: white;
+            display: none;
+            position: absolute;
+            z-index: 10;
+            max-height: 150px;
+            overflow-y: auto;
+            width: calc(100% - 22px);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .product {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            width: calc(25% - 20px);
+        }
+        .product img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--button-bg-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .cta-button:hover {
+            background-color: var(--button-hover-bg-color);
+        }
+
+        /* Dark Theme */
+        body.dark-theme {
+            --background-color: #333;
+            --text-color: #f9f9f9;
+            --button-bg-color: #28a745; /* Cobalt blue for button in dark theme */
+            --button-hover-bg-color: #218838; /* Darker blue for hover */
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .product {
+                width: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 480px) {
+            .product {
+                width: 100%;
+            }
+        }
+
+        .filter-container {
+            margin-bottom: 20px;
+        }
+        .filter-button {
+            margin-right: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+        }
+        .filter-button.active {
+            background: var(--button-bg-color);
+            color: white;
+        }
+    </style>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Form</title>
+    <title>Arsifyy Products</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -251,7 +370,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best Product on Amazon</title>
+    <title>Best Product Arsifyy</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         :root {
@@ -502,6 +621,13 @@
 
     <section id="products">
         <h2>Products</h2>
+        <div class="filter-container">
+    <button class="filter-button" onclick="filterProducts('all')">All</button>
+    <button class="filter-button" onclick="filterProducts('kitchen')">Kitchen</button>
+    <button class="filter-button" onclick="filterProducts('holiday')">Holiday</button>
+    <button class="filter-button" onclick="filterProducts('clothing')">Clothing</button>
+</div>
+
         <div class="products" id="productList">
             <div class="product">
                 <img src="images/product1.jpg" alt="Egg Topper Cutter Tool">
@@ -518,7 +644,7 @@
 
             <div class="product">
                 <img src="images/product2.jpg" alt="Large Chicken Shredder Tool">
-                <h3>Large Chicken Shredder Tool (Orange)</h3>
+                <h3>Large Chicken Shredder Tool</h3>
                 <h4>Key Features:</h4>
                 <ul>
                     <li><strong>Quick Shredding:</strong> Ergonomic handle for easy use.</li>
@@ -528,93 +654,240 @@
                 <p><strong>Rating:</strong> ★★★★☆ (4.7/5)</p>
                 <a href="https://amzn.to/4haJZDe" class="cta-button">Buy Now</a>
             </div>
+
+            <div class="product">
+                <img src="images/product3.jpg" alt="Christmas Wreath - 24 Pre-Lit">
+                <h3>Christmas Wreath - 24 Pre-Lit</h3>
+                <h4>Key Features:</h4>
+                <ul>
+                    <li>24" pre-lit North Valley Spruce wreath with 100+ tips.</li>
+                    <li>Indoor/outdoor use; perfect for doors and windows.</li>
+                    <li>Durable and fire-resistant materials for lasting cheer.</li>
+                </ul>
+                <p><strong>Rating:</strong> ★★★★☆ (4.4/5)</p>
+                <a href="https://amzn.to/3YvIJmQ" class="cta-button">Buy Now</a>
+            </div>
+
+            <div class="product">
+                <img src="images/product4.jpg" alt="Rustler Men's Classic Relaxed Fit">
+                <h3>Rustler Men's Classic Relaxed Fit</h3>
+                <h4>Key Features:</h4>
+                <ul>
+                    <li>Relaxed fit thru seat and thigh</li>
+                    <li>5 pocket styling</li>
+                    <li>Heavy weight durable denim</li>
+                </ul>
+                <p><strong>Rating:</strong> ★★★★☆ (4.5/5)</p>
+                <a href="https://amzn.to/4faVqsH" class="cta-button">Buy Now</a>
+            </div>
+
+             <div class="product">
+                <img src="images/product5.jpg" alt="Cozy Furry House Slippers for Men & Women">
+                <h3>Cozy Furry House Slippers for Men & Women</h3>
+                <h4>Key Features:</h4>
+                <ul>
+                    <li><strong>Versatile Design:</strong>Two ways to wear—step-on or pull-on.</li>
+                    <li><strong>Lightweight Comfort:</strong>Weighs less than 0.2 lbs for all-day wear.</li>
+                    <li><strong>Cozy & Warm:</strong>Fleece upper with memory foam, machine washable.</li>
+                </ul>
+                <p><strong>Rating:</strong> ★★★★☆ (4.5/5)</p>
+                <a href="https://amzn.to/3BUHa9e" class="cta-button">Buy Now</a>
+            </div>
+
+            <div class="product">
+                <img src="images/product6.jpg" alt="Lightweight Women's Open Front Cardigan for Fall">
+                <h3>Lightweight Women's Open Front Cardigan for Fall</h3>
+                <h4>Key Features:</h4>
+                <ul>
+                    <li><strong>Stylish Design:</strong>Open front with pockets and lapel neckline.</li>
+                    <li><strong>Cozy Comfort:</strong>Soft, warm knit fabric for all-day wear.</li>
+                    <li><strong>Versatile Use:</strong>Perfect for casual outings, school, or work in any season.</li>
+                </ul>
+                <p><strong>Rating:</strong> ★★★★☆ (4.5/5)</p>
+                <a href="https://amzn.to/40ksbzH" class="cta-button">Buy Now</a>
+            </div>
+
         </div>
     </section>
 
-    <script>
-        const products = [
-            {
-                name: "Egg Topper Cutter Tool",
-                img: "images/product1.jpg",
-                details: [
-                    "Easy to Use: Just press to crack eggs.",
-                    "Portable: Lightweight design for travel.",
-                    "Durable: Safe plastic and stainless steel."
-                ],
-                rating: "★★★★☆ (4.5/5)",
-                link: "https://amzn.to/4eLwlEU"
-            },
-            {
-                name: "Large Chicken Shredder Tool (Orange)",
-                img: "images/product2.jpg",
-                details: [
-                    "Quick Shredding: Ergonomic handle for easy use.",
-                    "Safe Materials: BPA-free and dishwasher safe.",
-                    "Easy to Use: Cook, cut, and twist to shred."
-                ],
-                rating: "★★★★☆ (4.7/5)",
-                link: "https://amzn.to/4haJZDe"
-            }
-        ];
+    <section id="products">
+    <h2>Products</h2>
+    <div class="products" id="productList"></div>
+</section>
 
-        function searchProducts() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const productList = document.getElementById('productList');
-            const suggestionsDiv = document.getElementById('suggestions');
-            productList.innerHTML = ''; // Clear current products
-            suggestionsDiv.innerHTML = ''; // Clear current suggestions
-
-            const filteredProducts = products.filter(product => product.name.toLowerCase().includes(input));
-
-            if (filteredProducts.length === 0) {
-                productList.innerHTML = '<p>No products found.</p>'; // Show message if no products found
-            } else {
-                filteredProducts.forEach(product => {
-                    const productDiv = document.createElement('div');
-                    productDiv.className = 'product';
-                    productDiv.innerHTML = `
-                        <img src="${product.img}" alt="${product.name}">
-                        <h3>${product.name}</h3>
-                        <h4>Key Features:</h4>
-                        <ul>
-                            ${product.details.map(detail => `<li><strong>${detail.split(":")[0]}:</strong> ${detail.split(":")[1]}</li>`).join('')}
-                        </ul>
-                        <p><strong>Rating:</strong> ${product.rating}</p>
-                        <a href="${product.link}" class="cta-button">Buy Now</a>
-                    `;
-                    productList.appendChild(productDiv);
-                });
-            }
-
-            // Tampilkan saran produk berdasarkan input
-            const suggestions = products.filter(product => product.name.toLowerCase().startsWith(input));
-            if (input && suggestions.length > 0) {
-                suggestionsDiv.style.display = 'block'; // Tampilkan saran
-                suggestionsDiv.innerHTML = suggestions.map(product => `
-                    <div class="suggestion-item" onclick="selectSuggestion('${product.name}')">
-                        <img src="${product.img}" alt="${product.name}"> 
-                        ${product.name}
-                    </div>
-                `).join('');
-            } else {
-                suggestionsDiv.style.display = 'none'; // Sembunyikan saran jika tidak ada
-            }
+<script>
+    const products = [
+        {
+            name: "Egg Topper Cutter Tool",
+            img: "images/product1.jpg",
+            details: [
+                "Easy to Use: Just press to crack eggs.",
+                "Portable: Lightweight design for travel.",
+                "Durable: Safe plastic and stainless steel."
+            ],
+            rating: "★★★★☆ (4.5/5)",
+            link: "https://amzn.to/4eLwlEU",
+            category: "kitchen"
+        },
+        {
+            name: "Large Chicken Shredder Tool",
+            img: "images/product2.jpg",
+            details: [
+                "Quick Shredding: Ergonomic handle for easy use.",
+                "Safe Materials: BPA-free and dishwasher safe.",
+                "Easy to Use: Cook, cut, and twist to shred."
+            ],
+            rating: "★★★★☆ (4.7/5)",
+            link: "https://amzn.to/4haJZDe",
+            category: "kitchen"
+        },
+        {
+            name: "Christmas Wreath - 24 Pre-Lit",
+            img: "images/product3.jpg",
+            details: [
+                "24 pre-lit North Valley Spruce wreath with 100+ tips.",
+                "Indoor/outdoor use; perfect for doors and windows.",
+                "Durable and fire-resistant materials for lasting cheer."
+            ],
+            rating: "★★★★☆ (4.4/5)",
+            link: "https://amzn.to/3YvIJmQ",
+            category: "holiday"
+        },
+        {
+            name: "Rustler Men's Classic Relaxed Fit",
+            img: "images/product4.jpg",
+            details: [
+                "Relaxed fit thru seat and thigh",
+                "5 pocket styling",
+                "Heavy weight durable denim"
+            ],
+            rating: "★★★★☆ (4.5/5)",
+            link: "https://amzn.to/4faVqsH",
+            category: "clothing"
+        },
+        {   name: "Cozy Furry House Slippers for Men & Women",
+            img: "images/product5.jpg",
+            details: [
+                "Two ways to wear—step-on or pull-on.",
+                "Weighs less than 0.2 lbs for all-day wear.",
+                "Fleece upper with memory foam, machine washable."
+            ],
+            rating: "★★★★☆ (4.5/5)",
+            link: "https://amzn.to/3BUHa9e",
+            category: "clothing"
+        },
+        {   name: "Lightweight Women's Open Front Cardigan for Fall",
+            img: "images/product6.jpg",
+            details: [
+                "Open front with pockets and lapel neckline.",
+                "Soft, warm knit fabric for all-day wear.",
+                "Perfect for casual outings, school, or work in any season."
+            ],
+            rating: "★★★★☆ (4.4/5)",
+            link: "https://amzn.to/40ksbzH",
+            category: "clothing"
         }
+    ];
 
-        function selectSuggestion(productName) {
-            document.getElementById('searchInput').value = productName; // Set input dengan produk yang dipilih
-            searchProducts(); // Panggil fungsi pencarian untuk memperbarui hasil
-            document.getElementById('suggestions').style.display = 'none'; // Sembunyikan saran
+
+    let currentCategory = 'all';
+
+    function displayProducts(productsToDisplay) {
+        const productList = document.getElementById('productList');
+        productList.innerHTML = ''; // Clear current products
+
+        if (productsToDisplay.length === 0) {
+            productList.innerHTML = '<p>No products found.</p>'; // Show message if no products found
+        } else {
+            productsToDisplay.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+                productDiv.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <h4>Key Features:</h4>
+                    <ul>
+                        ${product.details.map(detail => `<li><strong>${detail.split(":")[0]}:</strong> ${detail.split(":")[1]}</li>`).join('')}
+                    </ul>
+                    <p><strong>Rating:</strong> ${product.rating}</p>
+                    <a href="${product.link}" class="cta-button">Buy Now</a>
+                `;
+                productList.appendChild(productDiv);
+            });
         }
+    }
 
-        // Tutup saran saat mengklik di luar
-        document.addEventListener('click', function(event) {
-            const suggestionsDiv = document.getElementById('suggestions');
-            if (!document.querySelector('.search-container').contains(event.target)) {
-                suggestionsDiv.style.display = 'none';
-            }
+    function searchProducts() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const filteredProducts = products.filter(product => 
+            product.name.toLowerCase().includes(input) && 
+            (currentCategory === 'all' || product.category === currentCategory)
+        );
+        displayProducts(filteredProducts);
+
+        // Suggestions logic can remain unchanged
+        const suggestionsDiv = document.getElementById('suggestions');
+        suggestionsDiv.innerHTML = ''; // Clear current suggestions
+
+        const suggestions = products.filter(product => 
+            product.name.toLowerCase().startsWith(input) && 
+            (currentCategory === 'all' || product.category === currentCategory)
+        );
+        if (input && suggestions.length > 0) {
+            suggestionsDiv.style.display = 'block'; // Show suggestions
+            suggestionsDiv.innerHTML = suggestions.map(product => `
+                <div class="suggestion-item" onclick="selectSuggestion('${product.name}')">
+                    <img src="${product.img}" alt="${product.name}"> 
+                    ${product.name}
+                </div>
+            `).join('');
+        } else {
+            suggestionsDiv.style.display = 'none'; // Hide suggestions if none
+        }
+    }
+
+    function selectSuggestion(productName) {
+        document.getElementById('searchInput').value = productName; // Set input with selected product
+        searchProducts(); // Call search function to update results
+        document.getElementById('suggestions').style.display = 'none'; // Hide suggestions
+    }
+
+    function filterProducts(category) {
+        currentCategory = category;
+        document.querySelectorAll('.filter-button').forEach(button => {
+            button.classList.remove('active');
         });
-    </script>
+        const activeButton = document.querySelector(`.filter-button:nth-child(${Array.from(document.querySelectorAll('.filter-button')).indexOf(event.currentTarget) + 1})`);
+        activeButton.classList.add('active');
+        searchProducts(); // Update product display based on filter
+    }
+
+    function setTheme() {
+        const darkThemeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        if (darkThemeMediaQuery.matches) {
+            document.body.classList.add('dark-theme');
+        } else {
+            document.body.classList.remove('dark-theme');
+        }
+    }
+
+    // Set theme on initial load
+    setTheme();
+
+    // Listen for changes in the color scheme preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setTheme);
+
+    // Close suggestions when clicking outside
+    document.addEventListener('click', function(event) {
+        const suggestionsDiv = document.getElementById('suggestions');
+        if (!document.querySelector('.search-container').contains(event.target)) {
+            suggestionsDiv.style.display = 'none';
+        }
+    });
+
+    // Initial display of all products
+    displayProducts(products);
+</script>
 
         <section id="reviews">
             <h2>Reviews</h2>
