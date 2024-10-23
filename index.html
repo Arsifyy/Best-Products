@@ -12,7 +12,7 @@
             --button-hover-bg-color: #0056b3; /* Darker green for hover */
         }
 
-        body {
+         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
@@ -29,26 +29,26 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        .suggestions {
-            border: 1px solid #ccc;
-            background: white;
-            display: none;
-            position: absolute;
-            z-index: 10;
-            max-height: 150px;
-            overflow-y: auto;
-            width: calc(100% - 22px);
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .suggestion-item {
+        .filter-button {
+            flex: 1 1 120px; /* Minimum width with flexibility */
             padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: white;
             cursor: pointer;
+            text-align: center;
+            transition: background 0.3s;
         }
-        .suggestion-item:hover {
-            background-color: #f0f0f0;
+        .filter-button.active {
+            background: var(--button-bg-color);
+            color: white;
         }
         .products {
             display: flex;
@@ -60,17 +60,37 @@
             border-radius: 5px;
             background: white;
             padding: 15px;
+            flex: 1 1 calc(25% - 20px); /* Maintain 4 columns */
+            max-width: 300px; /* Fixed max width */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s, opacity 0.5s;
-            width: calc(25% - 20px);
-            opacity: 0; /* Start hidden */
-            transform: translateY(20px); /* Start slightly below */
-            animation: fadeInUp 0.5s forwards; /* Animation */
         }
         .product img {
             max-width: 100%;
+            height: auto; /* Maintain aspect ratio */
             border-radius: 5px;
         }
+
+        /* Dark Theme */
+        body.dark-theme {
+            --background-color: #333;
+            --text-color: #f9f9f9;
+            --button-bg-color: #28a745; /* Cobalt blue for button in dark theme */
+            --button-hover-bg-color: #218838; /* Darker blue for hover */
+        }
+
+         /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .product {
+                flex: 1 1 calc(50% - 20px); /* 2 columns */
+            }
+        }
+        @media (max-width: 480px) {
+            .product {
+                flex: 1 1 100%; /* 1 column */
+            }
+        }
+
         .cta-button {
             display: inline-block;
             padding: 10px 15px;
@@ -83,26 +103,6 @@
         }
         .cta-button:hover {
             background-color: var(--button-hover-bg-color);
-        }
-
-        /* Dark Theme */
-        body.dark-theme {
-            --background-color: #333;
-            --text-color: #f9f9f9;
-            --button-bg-color: #28a745; /* Cobalt blue for button in dark theme */
-            --button-hover-bg-color: #218838; /* Darker blue for hover */
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .product {
-                width: calc(50% - 20px);
-            }
-        }
-        @media (max-width: 480px) {
-            .product {
-                width: 100%;
-            }
         }
 
         .filter-container {
@@ -625,13 +625,12 @@
             </section>
         </div>
 
+    <section id="products">
+        <h2>Products</h2>
         <div class="search-container">
         <input type="text" id="searchInput" class="search-input" placeholder="Search products..." onkeyup="searchProducts()" />
         <div id="suggestions" class="suggestions"></div>
     </div>
-
-    <section id="products">
-        <h2>Products</h2>
         <div class="filter-container">
     <button class="filter-button" onclick="filterProducts('all')">All <span id="count-all"></span></button>
     <button class="filter-button" onclick="filterProducts('kitchen')">Kitchen <span id="count-kitchen"></span></button>
@@ -671,7 +670,7 @@
                 <h3>Christmas Wreath - 24 Pre-Lit</h3>
                 <h4>Key Features:</h4>
                 <ul>
-                    <li>24" pre-lit North Valley Spruce wreath with 100+ tips.</li>
+                    <li>24 pre-lit North Valley Spruce wreath with 100+ tips.</li>
                     <li>Indoor/outdoor use; perfect for doors and windows.</li>
                     <li>Durable and fire-resistant materials for lasting cheer.</li>
                 </ul>
@@ -784,29 +783,32 @@
             link: "https://amzn.to/4faVqsH",
             category: "clothing"
         },
-        {   name: "Cozy Furry House Slippers for Men & Women",
+        {   
+            name: "Cozy Furry House Slippers for Men & Women",
             img: "images/product5.jpg",
             details: [
-                "Two ways to wear—step-on or pull-on.",
-                "Weighs less than 0.2 lbs for all-day wear.",
-                "Fleece upper with memory foam, machine washable."
+                "Versatile Design: Two ways to wear—step-on or pull-on.",
+                "Lightweight Comfort: Weighs less than 0.2 lbs for all-day wear.",
+                "Cozy & Warm: Fleece upper with memory foam, machine washable."
             ],
             rating: "★★★★☆ (4.5/5)",
             link: "https://amzn.to/3BUHa9e",
             category: "clothing"
         },
-        {   name: "Lightweight Women's Open Front Cardigan for Fall",
+        {   
+            name: "Lightweight Women's Open Front Cardigan for Fall",
             img: "images/product6.jpg",
             details: [
-                "Open front with pockets and lapel neckline.",
-                "Soft, warm knit fabric for all-day wear.",
-                "Perfect for casual outings, school, or work in any season."
+                "Stylish Design: Open front with pockets and lapel neckline.",
+                "Cozy Comfort: Soft, warm knit fabric for all-day wear.",
+                "Versatile Use: Perfect for casual outings, school, or work in any season."
             ],
             rating: "★★★★☆ (4.4/5)",
             link: "https://amzn.to/40ksbzH",
             category: "clothing"
         },
-        {   name: "MICHLEY Unisex Baby Animal Costume Romper",
+        {   
+            name: "MICHLEY Unisex Baby Animal Costume Romper",
             img: "images/product7.jpg",
             details: [
                 "Multi-Sized Options",
