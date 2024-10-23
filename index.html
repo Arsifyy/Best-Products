@@ -61,8 +61,11 @@
             background: white;
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
+            transition: transform 0.2s, opacity 0.5s;
             width: calc(25% - 20px);
+            opacity: 0; /* Start hidden */
+            transform: translateY(20px); /* Start slightly below */
+            animation: fadeInUp 0.5s forwards; /* Animation */
         }
         .product img {
             max-width: 100%;
@@ -117,6 +120,14 @@
         .filter-button.active {
             background: var(--button-bg-color);
             color: white;
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0); /* Move to original position */
+            }
         }
     </style>
 
@@ -622,10 +633,10 @@
     <section id="products">
         <h2>Products</h2>
         <div class="filter-container">
-    <button class="filter-button" onclick="filterProducts('all')">All</button>
-    <button class="filter-button" onclick="filterProducts('kitchen')">Kitchen</button>
-    <button class="filter-button" onclick="filterProducts('holiday')">Holiday</button>
-    <button class="filter-button" onclick="filterProducts('clothing')">Clothing</button>
+    <button class="filter-button" onclick="filterProducts('all')">All <span id="count-all"></span></button>
+    <button class="filter-button" onclick="filterProducts('kitchen')">Kitchen <span id="count-kitchen"></span></button>
+    <button class="filter-button" onclick="filterProducts('holiday')">Holiday <span id="count-holiday"></span></button>
+    <button class="filter-button" onclick="filterProducts('clothing')">Clothing <span id="count-clothing"></span></button>
 </div>
 
         <div class="products" id="productList">
@@ -707,6 +718,19 @@
                 <a href="https://amzn.to/40ksbzH" class="cta-button">Buy Now</a>
             </div>
 
+            <div class="product">
+                <img src="images/product7.jpg" alt="MICHLEY Unisex Baby Animal Costume Romper">
+                <h3>MICHLEY Unisex Baby Animal Costume Romper</h3>
+                <h4>Key Features:</h4>
+                <ul>
+                    <li><strong>Multi-Sized Options</strong></li>
+                    <li><strong>Cozy Flannel Material</strong></li>
+                    <li><strong>Cute and Functional Design</strong></li>
+                </ul>
+                <p><strong>Rating:</strong> ★★★★★ (4.8/5)</p>
+                <a href="https://amzn.to/40f1tbo" class="cta-button">Buy Now</a>
+            </div>
+
         </div>
     </section>
 
@@ -786,11 +810,34 @@
             rating: "★★★★☆ (4.4/5)",
             link: "https://amzn.to/40ksbzH",
             category: "clothing"
+        },
+        {   name: "MICHLEY Unisex Baby Animal Costume Romper",
+            img: "images/product7.jpg",
+            details: [
+                "Multi-Sized Options",
+                "Cozy Flannel Material",
+                "Cute and Functional Design"
+            ],
+            rating: "★★★★★ (4.8/5)",
+            link: "https://amzn.to/40f1tbo",
+            category: "clothing"
         }
     ];
 
 
     let currentCategory = 'all';
+
+    function updateProductCounts() {
+        const countAll = document.getElementById('count-all');
+        const countKitchen = document.getElementById('count-kitchen');
+        const countHoliday = document.getElementById('count-holiday');
+        const countClothing = document.getElementById('count-clothing');
+
+        countAll.textContent = `(${products.length})`;
+        countKitchen.textContent = `(${products.filter(p => p.category === 'kitchen').length})`;
+        countHoliday.textContent = `(${products.filter(p => p.category === 'holiday').length})`;
+        countClothing.textContent = `(${products.filter(p => p.category === 'clothing').length})`;
+    }
 
     function displayProducts(productsToDisplay) {
         const productList = document.getElementById('productList');
@@ -824,26 +871,7 @@
             (currentCategory === 'all' || product.category === currentCategory)
         );
         displayProducts(filteredProducts);
-
-        // Suggestions logic can remain unchanged
-        const suggestionsDiv = document.getElementById('suggestions');
-        suggestionsDiv.innerHTML = ''; // Clear current suggestions
-
-        const suggestions = products.filter(product => 
-            product.name.toLowerCase().startsWith(input) && 
-            (currentCategory === 'all' || product.category === currentCategory)
-        );
-        if (input && suggestions.length > 0) {
-            suggestionsDiv.style.display = 'block'; // Show suggestions
-            suggestionsDiv.innerHTML = suggestions.map(product => `
-                <div class="suggestion-item" onclick="selectSuggestion('${product.name}')">
-                    <img src="${product.img}" alt="${product.name}"> 
-                    ${product.name}
-                </div>
-            `).join('');
-        } else {
-            suggestionsDiv.style.display = 'none'; // Hide suggestions if none
-        }
+        updateProductCounts(); // Update counts after search
     }
 
     function selectSuggestion(productName) {
@@ -885,8 +913,9 @@
         }
     });
 
-    // Initial display of all products
+    // Initial display of all products and counts
     displayProducts(products);
+    updateProductCounts();
 </script>
 
         <section id="reviews">
